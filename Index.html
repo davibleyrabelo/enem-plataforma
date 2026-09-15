@@ -1,0 +1,3837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENEM Master — Painel de Estudos</title>
+
+<style>
+:root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --card2: #f8fafc;
+    --text: #172033;
+    --muted: #667085;
+    --border: #e4e7ec;
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #0284c7;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .07);
+    --radius: 18px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 255px;
+    background: #111827;
+    color: white;
+    padding: 22px 16px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px 25px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.logo strong {
+    display: block;
+    font-size: 17px;
+}
+
+.logo small {
+    color: #9ca3af;
+}
+
+.nav-section {
+    margin: 20px 8px 8px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.nav-btn {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #d1d5db;
+    padding: 11px 12px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    text-align: left;
+    margin-bottom: 3px;
+    transition: .15s;
+}
+
+.nav-btn:hover {
+    background: #1f2937;
+    color: white;
+}
+
+.nav-btn.active {
+    background: #3730a3;
+    color: white;
+}
+
+.sidebar-bottom {
+    margin-top: 30px;
+    border-top: 1px solid #293241;
+    padding-top: 15px;
+}
+
+.main {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 70px;
+    background: rgba(255,255,255,.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.topbar-title {
+    font-weight: 800;
+}
+
+.top-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.container {
+    padding: 28px;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* GENERAL */
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    margin-bottom: 5px;
+    font-size: 27px;
+}
+
+.page-header p {
+    color: var(--muted);
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    gap: 18px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.small {
+    font-size: 12px;
+}
+
+.btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 700;
+    transition: .15s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: #eef2ff;
+    color: #3730a3;
+}
+
+.btn-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.btn-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.badge-green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-yellow {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-blue {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-purple {
+    background: #ede9fe;
+    color: #5b21b6;
+}
+
+.badge-gray {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+/* STATS */
+
+.stat {
+    min-height: 125px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 9px;
+}
+
+.stat-value {
+    font-size: 29px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.stat-sub {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* PROGRESS */
+
+.progress {
+    height: 9px;
+    background: #eef2f7;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: inherit;
+    transition: width .3s;
+}
+
+.area-row {
+    margin-bottom: 17px;
+}
+
+.area-row-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* TABLE */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th {
+    text-align: left;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 11px 9px;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 12px 9px;
+    border-bottom: 1px solid #f0f2f5;
+    vertical-align: middle;
+}
+
+tr:last-child td {
+    border-bottom: 0;
+}
+
+/* FORM */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #344054;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--text);
+    padding: 10px 11px;
+    outline: none;
+}
+
+textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.1);
+}
+
+.form-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(135deg, #312e81, #4f46e5 55%, #7c3aed);
+    color: white;
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 18px 45px rgba(79,70,229,.2);
+}
+
+.hero h1 {
+    margin-bottom: 8px;
+}
+
+.hero p {
+    color: #e0e7ff;
+    max-width: 720px;
+    margin: 0;
+}
+
+/* LEVEL */
+
+.level-box {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.level-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: #f3e8ff;
+}
+
+.level-name {
+    font-weight: 900;
+    font-size: 20px;
+}
+
+/* CHIPS */
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.chip {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--card2);
+}
+
+/* SCHEDULE */
+
+.schedule-item {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    gap: 13px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #eef0f3;
+}
+
+.schedule-item:last-child {
+    border-bottom: 0;
+}
+
+.year-box {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #3730a3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.schedule-title {
+    font-weight: 800;
+}
+
+.schedule-meta {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+/* RECOMMENDATION */
+
+.recommendation {
+    border: 1px solid #ddd6fe;
+    background: #faf8ff;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.recommendation strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.rec-reason {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 5px 0 10px;
+}
+
+/* CHART */
+
+.chart {
+    width: 100%;
+    height: 250px;
+}
+
+svg.chart-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.axis-label {
+    fill: #98a2b3;
+    font-size: 10px;
+}
+
+.chart-line {
+    fill: none;
+    stroke: #4f46e5;
+    stroke-width: 3;
+}
+
+.chart-dot {
+    fill: #4f46e5;
+}
+
+/* MODAL */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,.55);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-backdrop.show {
+    display: flex;
+}
+
+.modal {
+    width: min(800px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0,0,0,.25);
+    padding: 24px;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.modal-head h2 {
+    margin: 0;
+}
+
+/* EMPTY */
+
+.empty {
+    text-align: center;
+    padding: 35px 20px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+/* MOBILE */
+
+.mobile-menu {
+    display: none;
+    border: 0;
+    background: transparent;
+    font-size: 22px;
+}
+
+@media (max-width: 1050px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .2s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .container {
+        padding: 18px;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+}
+
+/* DARK */
+
+body.dark {
+    --bg: #0b1120;
+    --card: #111827;
+    --card2: #182234;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --border: #273244;
+}
+
+body.dark .topbar {
+    background: rgba(17,24,39,.92);
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: #111827;
+    color: #e5e7eb;
+    border-color: #334155;
+}
+
+body.dark .field label {
+    color: #d1d5db;
+}
+
+body.dark .modal {
+    background: #111827;
+}
+
+body.dark .recommendation {
+    background: #171329;
+    border-color: #40356d;
+}
+
+body.dark td {
+    border-bottom-color: #202a3a;
+}
+
+body.dark .progress {
+    background: #263143;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🎯</div>
+            <div>
+                <strong>ENEM Master</strong>
+                <small>Seu painel de evolução</small>
+            </div>
+        </div>
+
+        <div class="nav-section">Principal</div>
+
+        <button class="nav-btn active" data-page="dashboard">
+            📊 <span>Dashboard</span>
+        </button>
+
+        <button class="nav-btn" data-page="questoes">
+            📝 <span>Questões</span>
+        </button>
+
+        <button class="nav-btn" data-page="recomendacoes">
+            🎯 <span>Recomendações</span>
+        </button>
+
+        <button class="nav-btn" data-page="analise">
+            📈 <span>Análise</span>
+        </button>
+
+        <button class="nav-btn" data-page="pontos">
+            🏆 <span>Pontos fortes</span>
+        </button>
+
+        <button class="nav-btn" data-page="prioridades">
+            🚨 <span>Prioridades</span>
+        </button>
+
+        <div class="nav-section">Planejamento</div>
+
+        <button class="nav-btn" data-page="cronograma">
+            📅 <span>Cronograma ENEM</span>
+        </button>
+
+        <button class="nav-btn" data-page="registros">
+            📚 <span>Questões feitas</span>
+        </button>
+
+        <div class="nav-section">Sistema</div>
+
+        <button class="nav-btn" data-page="dados">
+            💾 <span>Dados</span>
+        </button>
+
+        <div class="sidebar-bottom">
+            <button class="nav-btn" id="themeBtn">
+                🌙 <span>Modo escuro</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button class="mobile-menu" id="mobileMenu">☰</button>
+                <div class="topbar-title" id="topTitle">Dashboard</div>
+            </div>
+
+            <div class="top-actions">
+                <button class="btn btn-secondary" onclick="openQuestionModal()">
+                    + Questão
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+
+            <!-- DASHBOARD -->
+
+            <section class="page active" id="page-dashboard">
+
+                <div class="hero">
+                    <h1>Seu painel de preparação 🎯</h1>
+                    <p>
+                        O sistema acompanha seu desempenho, identifica padrões de erro,
+                        calcula prioridades e sugere onde concentrar seus próximos estudos.
+                    </p>
+                </div>
+
+                <div class="grid grid-4" id="dashboardStats"></div>
+
+                <div style="height:18px"></div>
+
+                <div class="grid grid-2">
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Desempenho por área</h3>
+                            <span class="badge badge-blue">Atualizado</span>
+                        </div>
+                        <div id="areaPerformance"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Nível atual</h3>
+                        </div>
+
+                        <div class="level-box">
+                            <div class="level-icon" id="levelIcon">💎</div>
+
+                            <div>
+                                <div class="level-name" id="levelName">
+                                    Em construção
+                                </div>
+
+                                <div class="muted small" id="levelDescription">
+                                    Registre questões para desbloquear sua classificação.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="height:18px"></div>
+
+                        <div class="progress">
+                            <div class="progress-bar" id="levelProgress" style="width:0%"></div>
+                        </div>
+
+                        <div style="height:10px"></div>
+
+                        <div class="small muted" id="levelProgressText">
+                            0 questões registradas
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="height:18px"></div>
+
+                <div class="grid grid-2">
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Próximos focos</h3>
+                            <button class="btn btn-ghost" onclick="goTo('prioridades')">
+                                Ver tudo
+                            </button>
+                        </div>
+                        <div id="dashboardPriorities"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Próxima prova</h3>
+                            <span class="badge badge-purple">Sem repetição</span>
+                        </div>
+                        <div id="nextExam"></div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- QUESTÕES -->
+
+            <section class="page" id="page-questoes">
+
+                <div class="page-header">
+                    <h1>Registrar questão</h1>
+                    <p>
+                        Você registra uma vez. O dashboard, as prioridades, os pontos fortes
+                        e as recomendações são atualizados automaticamente.
+                    </p>
+                </div>
+
+                <div class="card">
+
+                    <form id="questionForm">
+
+                        <div class="form-grid">
+
+                            <div class="field">
+                                <label>Edição / Fonte</label>
+                                <input id="qEdition" placeholder="Ex.: ENEM 2024">
+                            </div>
+
+                            <div class="field">
+                                <label>Questão</label>
+                                <input id="qNumber" type="number" min="1" placeholder="Ex.: 127">
+                            </div>
+
+                            <div class="field">
+                                <label>Área</label>
+                                <select id="qArea">
+                                    <option value="">Selecione</option>
+                                    <option>Linguagens</option>
+                                    <option>Humanas</option>
+                                    <option>Natureza</option>
+                                    <option>Matemática</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Resultado</label>
+                                <select id="qResult">
+                                    <option value="Acerto">✅ Acerto</option>
+                                    <option value="Erro">❌ Erro</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Matéria</label>
+                                <select id="qSubject">
+                                    <option value="">Selecione</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Conteúdo</label>
+                                <input id="qContent" list="contentList"
+                                    placeholder="Ex.: Estequiometria">
+                            </div>
+
+                            <div class="field">
+                                <label>Tipo de erro</label>
+                                <select id="qError">
+                                    <option>Não errei</option>
+                                    <option>Conteúdo</option>
+                                    <option>Interpretação</option>
+                                    <option>Atenção</option>
+                                    <option>Cálculo</option>
+                                    <option>Tempo</option>
+                                    <option>Chute</option>
+                                    <option>Comando</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Dificuldade</label>
+                                <select id="qDifficulty">
+                                    <option value="1">1 — Muito fácil</option>
+                                    <option value="2">2 — Fácil</option>
+                                    <option value="3" selected>3 — Média</option>
+                                    <option value="4">4 — Difícil</option>
+                                    <option value="5">5 — Muito difícil</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Tempo (minutos)</label>
+                                <input id="qTime" type="number" min="0" step=".1"
+                                    placeholder="Ex.: 2.5">
+                            </div>
+
+                            <div class="field">
+                                <label>Etapa</label>
+                                <select id="qStage">
+                                    <option>Prova</option>
+                                    <option>Lista</option>
+                                    <option>Revisão</option>
+                                    <option>Simulado</option>
+                                    <option>Vestibular</option>
+                                    <option>Treino</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Revisado?</label>
+                                <select id="qReviewed">
+                                    <option value="Não">Não</option>
+                                    <option value="Sim">Sim</option>
+                                </select>
+                            </div>
+
+                            <div class="field full">
+                                <label>Observação</label>
+                                <textarea id="qNote"
+                                    placeholder="O que você aprendeu? Qual foi a pegadinha?"></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-ghost"
+                                onclick="resetQuestionForm()">
+                                Limpar
+                            </button>
+
+                            <button type="submit" class="btn btn-primary">
+                                Salvar questão
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <datalist id="contentList"></datalist>
+
+            </section>
+
+            <!-- RECOMENDAÇÕES -->
+
+            <section class="page" id="page-recomendacoes">
+
+                <div class="page-header">
+                    <h1>Recomendações 🎯</h1>
+                    <p>
+                        O motor cruza seus erros, desempenho, conteúdos e questões já feitas
+                        para indicar os próximos treinos.
+                    </p>
+                </div>
+
+                <div class="grid grid-3">
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Modo</h3>
+                        </div>
+
+                        <select id="recMode" onchange="renderRecommendations()">
+                            <option value="priority">Prioridade</option>
+                            <option value="error">Tipos de erro</option>
+                            <option value="balance">Equilibrar áreas</option>
+                            <option value="new">Conteúdos novos</option>
+                        </select>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Área</h3>
+                        </div>
+
+                        <select id="recArea" onchange="renderRecommendations()">
+                            <option value="">Todas</option>
+                            <option>Linguagens</option>
+                            <option>Humanas</option>
+                            <option>Natureza</option>
+                            <option>Matemática</option>
+                        </select>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Quantidade</h3>
+                        </div>
+
+                        <select id="recLimit" onchange="renderRecommendations()">
+                            <option value="5">5 recomendações</option>
+                            <option value="10" selected>10 recomendações</option>
+                            <option value="20">20 recomendações</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div style="height:18px"></div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h3>O que estudar agora?</h3>
+
+                        <button class="btn btn-secondary"
+                            onclick="generateWebSearches()">
+                            🔎 Buscar questões externas
+                        </button>
+                    </div>
+
+                    <div id="recommendations"></div>
+
+                </div>
+
+            </section>
+
+            <!-- ANÁLISE -->
+
+            <section class="page" id="page-analise">
+
+                <div class="page-header">
+                    <h1>Análise de desempenho 📈</h1>
+                    <p>Veja o comportamento real dos seus acertos e erros.</p>
+                </div>
+
+                <div class="grid grid-2">
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Desempenho por edição</h3>
+                        </div>
+
+                        <div class="chart" id="editionChart"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Tipos de erro</h3>
+                        </div>
+
+                        <div class="chart" id="errorChart"></div>
+                    </div>
+
+                </div>
+
+                <div style="height:18px"></div>
+
+                <div class="grid grid-2">
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Desempenho por matéria</h3>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Área</th>
+                                        <th>Matéria</th>
+                                        <th>Questões</th>
+                                        <th>%</th>
+                                        <th>Nível</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subjectAnalysis"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <h3>Tempo</h3>
+                        </div>
+
+                        <div id="timeAnalysis"></div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- PONTOS FORTES -->
+
+            <section class="page" id="page-pontos">
+
+                <div class="page-header">
+                    <h1>🏆 Pontos Fortes</h1>
+                    <p>
+                        Conteúdos com pelo menos 10 questões e aproveitamento de 80% ou mais.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div id="strengths"></div>
+                </div>
+
+            </section>
+
+            <!-- PRIORIDADES -->
+
+            <section class="page" id="page-prioridades">
+
+                <div class="page-header">
+                    <h1>🚨 Prioridades de Revisão</h1>
+                    <p>
+                        O índice combina desempenho, quantidade de questões e relevância
+                        histórica do conteúdo.
+                    </p>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h3>Ranking de atenção</h3>
+                        <span class="badge badge-red">Automático</span>
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Área</th>
+                                    <th>Matéria</th>
+                                    <th>Conteúdo</th>
+                                    <th>Questões</th>
+                                    <th>Acerto</th>
+                                    <th>Erros</th>
+                                    <th>Prioridade</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="priorityTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CRONOGRAMA -->
+
+            <section class="page" id="page-cronograma">
+
+                <div class="page-header">
+                    <h1>📅 Cronograma ENEM</h1>
+                    <p>
+                        Cada edição aparece uma única vez. A ordem foi definida para
+                        progressão de dificuldade e consolidação.
+                    </p>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h3>ENEM 2017–2025</h3>
+                        <span class="badge badge-purple">
+                            9 edições
+                        </span>
+                    </div>
+
+                    <div id="schedule"></div>
+
+                </div>
+
+            </section>
+
+            <!-- REGISTROS -->
+
+            <section class="page" id="page-registros">
+
+                <div class="page-header">
+                    <h1>📚 Questões já feitas</h1>
+                    <p>
+                        Use esta página para garantir que o sistema nunca recomende
+                        novamente uma questão que você já registrou.
+                    </p>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h3>Histórico</h3>
+
+                        <div style="display:flex;gap:8px;">
+                            <input id="recordSearch"
+                                placeholder="Pesquisar..."
+                                oninput="renderRecords()"
+                                style="width:220px;">
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fonte</th>
+                                    <th>Questão</th>
+                                    <th>Área</th>
+                                    <th>Matéria</th>
+                                    <th>Conteúdo</th>
+                                    <th>Resultado</th>
+                                    <th>Tempo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="recordsTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- DADOS -->
+
+            <section class="page" id="page-dados">
+
+                <div class="page-header">
+                    <h1>💾 Dados</h1>
+                    <p>
+                        Seus dados ficam salvos neste navegador. Faça backup periodicamente.
+                    </p>
+                </div>
+
+                <div class="grid grid-2">
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            <h3>Exportar</h3>
+                        </div>
+
+                        <p class="muted">
+                            Baixe uma cópia de todos os seus registros, configurações e
+                            progresso.
+                        </p>
+
+                        <button class="btn btn-primary" onclick="exportData()">
+                            ⬇️ Exportar JSON
+                        </button>
+
+                    </div>
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            <h3>Importar</h3>
+                        </div>
+
+                        <p class="muted">
+                            Restaure seus dados a partir de um arquivo JSON exportado
+                            anteriormente.
+                        </p>
+
+                        <input type="file" id="importFile" accept=".json"
+                            onchange="importData(event)">
+
+                    </div>
+
+                </div>
+
+                <div style="height:18px"></div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h3>Zona de segurança</h3>
+                    </div>
+
+                    <p class="muted">
+                        Apagar os dados remove todas as questões registradas neste navegador.
+                        O ENEM 2023 agregado continuará disponível como linha de base.
+                    </p>
+
+                    <button class="btn btn-danger" onclick="clearAllData()">
+                        🗑️ Apagar registros
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<!-- MODAL QUESTÃO EXTERNA -->
+
+<div class="modal-backdrop" id="externalModal">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <h2>Adicionar questão externa</h2>
+
+            <button class="btn btn-ghost"
+                onclick="closeExternalModal()">✕</button>
+        </div>
+
+        <form id="externalForm">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Fonte</label>
+                    <input id="eSource" placeholder="Ex.: FUVEST">
+                </div>
+
+                <div class="field">
+                    <label>Ano</label>
+                    <input id="eYear" placeholder="Ex.: 2024">
+                </div>
+
+                <div class="field">
+                    <label>Área</label>
+                    <select id="eArea">
+                        <option>Linguagens</option>
+                        <option>Humanas</option>
+                        <option>Natureza</option>
+                        <option>Matemática</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Questão</label>
+                    <input id="eNumber" placeholder="Ex.: 37">
+                </div>
+
+                <div class="field full">
+                    <label>Matéria</label>
+                    <input id="eSubject" placeholder="Ex.: Química">
+                </div>
+
+                <div class="field full">
+                    <label>Conteúdo</label>
+                    <input id="eContent" placeholder="Ex.: Estequiometria">
+                </div>
+
+                <div class="field full">
+                    <label>Link da questão</label>
+                    <input id="eUrl" type="url"
+                        placeholder="Cole aqui o endereço da questão">
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button type="button" class="btn btn-ghost"
+                    onclick="closeExternalModal()">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Adicionar ao catálogo
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+const STORAGE_KEY = "enem_master_v1";
+
+const EXAM_ORDER = [
+    2023,
+    2024,
+    2020,
+    2019,
+    2025,
+    2021,
+    2018,
+    2017,
+    2022
+];
+
+const AREAS = [
+    "Linguagens",
+    "Humanas",
+    "Natureza",
+    "Matemática"
+];
+
+const SUBJECTS = {
+    Linguagens: [
+        "Português",
+        "Literatura",
+        "Inglês",
+        "Espanhol",
+        "Artes",
+        "Educação Física"
+    ],
+
+    Humanas: [
+        "História",
+        "Geografia",
+        "Filosofia",
+        "Sociologia"
+    ],
+
+    Natureza: [
+        "Química",
+        "Física",
+        "Biologia"
+    ],
+
+    Matemática: [
+        "Matemática"
+    ]
+};
+
+/*
+    Frequências históricas aproximadas fornecidas para o
+    planejamento. Não representam previsão da prova.
+*/
+
+const FREQUENCIES = {
+
+    "Linguagens|Português|Interpretação de textos": 33.3,
+    "Linguagens|Português|Tendências contemporâneas": 28,
+    "Linguagens|Português|Estrutura e formação das palavras": 21,
+    "Linguagens|Português|Tipos de texto": 19,
+    "Linguagens|Português|Elementos da narrativa": 14,
+    "Linguagens|Português|Funções da linguagem": 13,
+    "Linguagens|Português|Pontuação": 10,
+    "Linguagens|Português|Narratividade": 9,
+    "Linguagens|Literatura|Literatura": 7.8,
+    "Linguagens|Português|Classe de palavras": 7,
+    "Linguagens|Português|Verbo": 7,
+
+    "Linguagens|Inglês|Interpretação de Textos": 51.3,
+    "Linguagens|Inglês|Domínio Lexical": 11.3,
+    "Linguagens|Inglês|Identificação da Função do Texto": 8.7,
+
+    "Linguagens|Espanhol|Interpretação de Textos": 52.2,
+    "Linguagens|Espanhol|Domínio Lexical": 14.8,
+    "Linguagens|Espanhol|Identificação de Função": 6.1,
+
+    "Linguagens|Artes|Arte Contemporânea": 60,
+    "Linguagens|Artes|Arte séculos XV/XVI": 10,
+    "Linguagens|Artes|Elementos básicos Artes Plásticas": 10,
+    "Linguagens|Artes|Elementos básicos Música": 10,
+    "Linguagens|Artes|Música século XX": 5,
+
+    "Linguagens|Educação Física|Esporte e espetáculo": 29,
+    "Linguagens|Educação Física|Influência da mídia no corpo": 29,
+
+    "Humanas|História|Idade Contemporânea": 17.7,
+    "Humanas|História|2ª Guerra": 13.6,
+    "Humanas|História|Brasil Colônia": 12.7,
+    "Humanas|História|Primeiro/Segundo Reinado": 12.3,
+    "Humanas|História|Redemocratização": 12.3,
+    "Humanas|História|Era Vargas": 11.1,
+    "Humanas|História|História Política": 10.5,
+    "Humanas|História|República Velha": 9.9,
+    "Humanas|História|Patrimônio histórico-cultural/memória": 7.8,
+
+    "Humanas|Geografia|Geografia Agrária": 18.1,
+    "Humanas|Geografia|Questões Ambientais": 15.5,
+    "Humanas|Geografia|Geografia Física": 10.9,
+    "Humanas|Geografia|Geografia Urbana": 10.4,
+    "Humanas|Geografia|Climatologia": 10.4,
+    "Humanas|Geografia|Urbanização": 10.4,
+    "Humanas|Geografia|Globalização": 9.1,
+    "Humanas|Geografia|Cartografia": 6.5,
+    "Humanas|Geografia|Indústria": 6.5,
+
+    "Humanas|Filosofia|Aristóteles/escola helenística": 18.8,
+    "Humanas|Filosofia|Ética/Justiça": 18.7,
+    "Humanas|Filosofia|Racionalismo moderno": 18.8,
+    "Humanas|Filosofia|Filosofia Antiga": 16.8,
+    "Humanas|Filosofia|Sofistas/Sócrates/Platão": 12.5,
+    "Humanas|Filosofia|Filosofia Contemporânea": 12.4,
+    "Humanas|Filosofia|Natureza do Conhecimento": 11.6,
+    "Humanas|Filosofia|Filosofia Moderna": 11.6,
+    "Humanas|Filosofia|Escola de Frankfurt": 9.4,
+
+    "Humanas|Sociologia|Sociologia contemporânea": 28.6,
+    "Humanas|Sociologia|Mundo do Trabalho": 21.9,
+    "Humanas|Sociologia|Cultura/Indústria Cultural": 12.9,
+    "Humanas|Sociologia|Ideologia": 11.6,
+    "Humanas|Sociologia|Meios de Comunicação/Tecnologia/Cultura de Massa": 11.6,
+    "Humanas|Sociologia|Cidadania": 10.3,
+    "Humanas|Sociologia|Capitalismo": 7.1,
+    "Humanas|Sociologia|Economia e sociedade": 7.1,
+
+    "Natureza|Química|Físico-Química": 27,
+    "Natureza|Química|Química Geral": 26.8,
+    "Natureza|Química|Orgânica": 19.2,
+    "Natureza|Química|Ligações/polaridade/forças": 13.4,
+    "Natureza|Química|Reações orgânicas": 11,
+    "Natureza|Química|Compostos orgânicos": 9.8,
+    "Natureza|Química|Eletroquímica": 8.5,
+    "Natureza|Química|Estequiometria": 8.5,
+    "Natureza|Química|Soluções": 7.3,
+    "Natureza|Química|Energia": 6.4,
+
+    "Natureza|Física|Mecânica": 30.9,
+    "Natureza|Física|Eletricidade/Energia": 25.8,
+    "Natureza|Física|Ondulatória": 18,
+    "Natureza|Física|Termologia": 17.1,
+    "Natureza|Física|Acústica": 11,
+    "Natureza|Física|Energia/trabalho/potência": 8.2,
+    "Natureza|Física|Resistores": 8.2,
+    "Natureza|Física|Calorimetria": 5.5,
+    "Natureza|Física|Impulso/q. movimento/análise dimensional": 5.5,
+    "Natureza|Física|Introdução à óptica geométrica": 5.5,
+
+    "Natureza|Biologia|Humanidade/Ambiente": 19.5,
+    "Natureza|Biologia|Citologia": 11.5,
+    "Natureza|Biologia|Histologia/Fisiologia": 11.5,
+    "Natureza|Biologia|Sistema imunológico": 9.9,
+    "Natureza|Biologia|Ecossistemas": 8.5,
+    "Natureza|Biologia|Fundamentos ecologia": 8.3,
+    "Natureza|Biologia|Biotecnologia": 8.1,
+    "Natureza|Biologia|DNA/RNA": 5.6,
+    "Natureza|Biologia|Genética": 5.6,
+
+    "Matemática|Matemática|Geometria": 22.5,
+    "Matemática|Matemática|Equações 1º/2º grau": 17,
+    "Matemática|Matemática|Escalas/Razão/Proporção": 14.2,
+    "Matemática|Matemática|Grandezas proporcionais/médias algébricas": 14,
+    "Matemática|Matemática|Aritmética": 11.8,
+    "Matemática|Matemática|Porcentagem/mat financeira": 11,
+    "Matemática|Matemática|Gráficos/Tabelas": 9.1,
+    "Matemática|Matemática|Funções": 8.7,
+    "Matemática|Matemática|Estatística": 6,
+    "Matemática|Matemática|Probabilidade": 6,
+    "Matemática|Matemática|Área figuras planas/polígonos": 5
+};
+
+/* =========================================================
+   ENEM 2023 — LINHA DE BASE
+========================================================= */
+
+const BASELINE_2023 = {
+    Linguagens: {
+        correct: 32,
+        total: 45
+    },
+
+    Humanas: {
+        correct: 38,
+        total: 45
+    },
+
+    Natureza: {
+        correct: 37,
+        total: 45
+    },
+
+    Matemática: {
+        correct: 44,
+        total: 45
+    }
+};
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let state = {
+    questions: [],
+    externalCatalog: [],
+    schedule: {},
+    theme: "light"
+};
+
+function loadState() {
+
+    const raw = localStorage.getItem(STORAGE_KEY);
+
+    if (raw) {
+        try {
+            const parsed = JSON.parse(raw);
+
+            state = {
+                ...state,
+                ...parsed
+            };
+
+        } catch (e) {
+            console.warn("Falha ao carregar dados.");
+        }
+    }
+
+    EXAM_ORDER.forEach(year => {
+
+        if (!state.schedule[year]) {
+            state.schedule[year] = {
+                status: "Pendente"
+            };
+        }
+
+    });
+
+    if (state.theme === "dark") {
+        document.body.classList.add("dark");
+    }
+}
+
+function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+const pageTitles = {
+    dashboard: "Dashboard",
+    questoes: "Registrar questão",
+    recomendacoes: "Recomendações",
+    analise: "Análise",
+    pontos: "Pontos fortes",
+    prioridades: "Prioridades",
+    cronograma: "Cronograma ENEM",
+    registros: "Questões já feitas",
+    dados: "Dados"
+};
+
+function goTo(page) {
+
+    document.querySelectorAll(".page").forEach(el => {
+        el.classList.remove("active");
+    });
+
+    const target = document.getElementById("page-" + page);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+        btn.classList.toggle(
+            "active",
+            btn.dataset.page === page
+        );
+    });
+
+    document.getElementById("topTitle").textContent =
+        pageTitles[page] || "ENEM Master";
+
+    if (window.innerWidth <= 800) {
+        document.getElementById("sidebar").classList.remove("open");
+    }
+
+    renderPage(page);
+}
+
+function renderPage(page) {
+
+    if (page === "dashboard") renderDashboard();
+    if (page === "recomendacoes") renderRecommendations();
+    if (page === "analise") renderAnalysis();
+    if (page === "pontos") renderStrengths();
+    if (page === "prioridades") renderPriorities();
+    if (page === "cronograma") renderSchedule();
+    if (page === "registros") renderRecords();
+}
+
+/* =========================================================
+   UTILITÁRIOS
+========================================================= */
+
+function pct(correct, total) {
+
+    if (!total) return 0;
+
+    return Math.round(
+        (correct / total) * 1000
+    ) / 10;
+}
+
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function escapeHTML(str) {
+
+    return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function normalize(str) {
+
+    return String(str || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
+function getKey(q) {
+
+    return [
+        q.area,
+        q.subject,
+        q.content
+    ].join("|");
+}
+
+function getFrequency(q) {
+
+    const exact =
+        FREQUENCIES[
+            `${q.area}|${q.subject}|${q.content}`
+        ];
+
+    if (exact) return exact;
+
+    const normalizedContent = normalize(q.content);
+
+    const match = Object.entries(FREQUENCIES)
+        .find(([key]) => {
+
+            const parts = key.split("|");
+
+            return (
+                parts[0] === q.area &&
+                parts[1] === q.subject &&
+                normalize(parts[2]) === normalizedContent
+            );
+
+        });
+
+    return match ? match[1] : 3;
+}
+
+function levelFromPerformance(performance, count) {
+
+    if (count < 10) {
+        return {
+            name: "Em avaliação",
+            icon: "🧪",
+            cls: "badge-gray"
+        };
+    }
+
+    if (performance < 60) {
+        return {
+            name: "🚨 Reforçar",
+            icon: "🚨",
+            cls: "badge-red"
+        };
+    }
+
+    if (performance < 70) {
+        return {
+            name: "🥉 Bronze",
+            icon: "🥉",
+            cls: "badge-yellow"
+        };
+    }
+
+    if (performance < 80) {
+        return {
+            name: "🥈 Prata",
+            icon: "🥈",
+            cls: "badge-gray"
+        };
+    }
+
+    if (performance < 90) {
+        return {
+            name: "🥇 Ouro",
+            icon: "🥇",
+            cls: "badge-blue"
+        };
+    }
+
+    if (performance < 95) {
+        return {
+            name: "💎 Platina",
+            icon: "💎",
+            cls: "badge-purple"
+        };
+    }
+
+    return {
+        name: "💎+ Platina+",
+        icon: "💎+",
+        cls: "badge-purple"
+    };
+}
+
+/* =========================================================
+   MÉTRICAS
+========================================================= */
+
+function getAllDetailedQuestions() {
+
+    return state.questions;
+}
+
+function getTotalCorrect() {
+
+    return state.questions.filter(
+        q => q.result === "Acerto"
+    ).length;
+}
+
+function getTotalErrors() {
+
+    return state.questions.filter(
+        q => q.result === "Erro"
+    ).length;
+}
+
+function getTotalQuestions() {
+
+    return state.questions.length;
+}
+
+function getOverallPerformance() {
+
+    const correct = getTotalCorrect();
+    const total = getTotalQuestions();
+
+    return pct(correct, total);
+}
+
+function getAreaStats(area) {
+
+    const detailed = state.questions.filter(
+        q => q.area === area
+    );
+
+    const baseline = BASELINE_2023[area];
+
+    let correct =
+        detailed.filter(q => q.result === "Acerto").length;
+
+    let total = detailed.length;
+
+    /*
+       A linha de base do ENEM 2023 aparece no dashboard,
+       mas não é misturada com as questões detalhadas.
+       Isso evita fabricar dados de conteúdo.
+    */
+
+    return {
+        correct,
+        total,
+        performance: pct(correct, total),
+        baseline
+    };
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+    const total = getTotalQuestions();
+    const correct = getTotalCorrect();
+    const errors = getTotalErrors();
+
+    const performance = getOverallPerformance();
+
+    const completedEditions = Object.values(state.schedule)
+        .filter(s => s.status === "Concluído")
+        .length;
+
+    const nextYear =
+        EXAM_ORDER.find(
+            year => state.schedule[year].status !== "Concluído"
+        );
+
+    document.getElementById("dashboardStats").innerHTML = `
+
+        <div class="card stat">
+            <div class="stat-label">Questões registradas</div>
+            <div class="stat-value">${total}</div>
+            <div class="stat-sub">
+                ${correct} acertos · ${errors} erros
+            </div>
+        </div>
+
+        <div class="card stat">
+            <div class="stat-label">Aproveitamento</div>
+            <div class="stat-value">${performance.toFixed(1)}%</div>
+            <div class="stat-sub">
+                ${total ? "Base detalhada registrada" : "Aguardando registros"}
+            </div>
+        </div>
+
+        <div class="card stat">
+            <div class="stat-label">Edições concluídas</div>
+            <div class="stat-value">${completedEditions}/9</div>
+            <div class="stat-sub">
+                ${nextYear ? `Próxima: ENEM ${nextYear}` : "Cronograma concluído"}
+            </div>
+        </div>
+
+        <div class="card stat">
+            <div class="stat-label">Linha de base 2023</div>
+            <div class="stat-value">83,9%</div>
+            <div class="stat-sub">
+                151/180 questões
+            </div>
+        </div>
+    `;
+
+    renderAreaPerformance();
+    renderDashboardPriorities();
+    renderNextExam();
+    renderGlobalLevel();
+}
+
+function renderAreaPerformance() {
+
+    const el = document.getElementById("areaPerformance");
+
+    el.innerHTML = AREAS.map(area => {
+
+        const baseline = BASELINE_2023[area];
+
+        const detailed = state.questions.filter(
+            q => q.area === area
+        );
+
+        const correct = detailed.filter(
+            q => q.result === "Acerto"
+        ).length;
+
+        const total = detailed.length;
+
+        let value = total
+            ? pct(correct, total)
+            : pct(baseline.correct, baseline.total);
+
+        let label = total
+            ? `${value.toFixed(1)}%`
+            : `${value.toFixed(1)}% · base 2023`;
+
+        return `
+            <div class="area-row">
+
+                <div class="area-row-head">
+                    <span>${area}</span>
+                    <span>${label}</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar"
+                        style="width:${clamp(value,0,100)}%">
+                    </div>
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+function renderGlobalLevel() {
+
+    const total = getTotalQuestions();
+    const performance = getOverallPerformance();
+
+    const level = levelFromPerformance(
+        performance,
+        total
+    );
+
+    document.getElementById("levelIcon").textContent =
+        level.icon;
+
+    document.getElementById("levelName").textContent =
+        level.name;
+
+    document.getElementById("levelDescription").textContent =
+        total < 10
+            ? "Registre pelo menos 10 questões para começar a medir domínio."
+            : "Classificação calculada sobre suas questões detalhadas.";
+
+    const progress =
+        total < 10
+            ? total * 10
+            : performance;
+
+    document.getElementById("levelProgress").style.width =
+        clamp(progress, 0, 100) + "%";
+
+    document.getElementById("levelProgressText").textContent =
+        `${total} questões detalhadas · ${performance.toFixed(1)}% de aproveitamento`;
+}
+
+function calculatePriorityRows() {
+
+    const groups = {};
+
+    state.questions.forEach(q => {
+
+        const key = getKey(q);
+
+        if (!groups[key]) {
+            groups[key] = {
+                area: q.area,
+                subject: q.subject,
+                content: q.content,
+                total: 0,
+                correct: 0,
+                errors: 0,
+                frequency: getFrequency(q)
+            };
+        }
+
+        groups[key].total++;
+
+        if (q.result === "Acerto") {
+            groups[key].correct++;
+        } else {
+            groups[key].errors++;
+        }
+
+    });
+
+    return Object.values(groups)
+        .map(g => {
+
+            const performance =
+                pct(g.correct, g.total);
+
+            const evidence =
+                Math.min(1, g.total / 20);
+
+            const priority =
+                g.frequency *
+                (1 - performance / 100) *
+                evidence;
+
+            return {
+                ...g,
+                performance,
+                priority
+            };
+
+        })
+        .sort((a,b) => b.priority - a.priority);
+}
+
+function renderDashboardPriorities() {
+
+    const rows = calculatePriorityRows()
+        .filter(x => x.total >= 3)
+        .slice(0, 4);
+
+    const el = document.getElementById(
+        "dashboardPriorities"
+    );
+
+    if (!rows.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🎯</div>
+                Registre questões para gerar prioridades automáticas.
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = rows.map(row => `
+
+        <div class="recommendation">
+
+            <strong>
+                ${escapeHTML(row.content)}
+            </strong>
+
+            <div class="small muted">
+                ${escapeHTML(row.area)} ·
+                ${escapeHTML(row.subject)}
+            </div>
+
+            <div class="rec-reason">
+                ${row.performance.toFixed(1)}% de acerto ·
+                ${row.errors} erro(s) ·
+                frequência histórica ${row.frequency}%
+            </div>
+
+        </div>
+
+    `).join("");
+}
+
+function renderNextExam() {
+
+    const el = document.getElementById("nextExam");
+
+    const year = EXAM_ORDER.find(
+        y => state.schedule[y].status !== "Concluído"
+    );
+
+    if (!year) {
+
+        el.innerHTML = `
+            <div class="empty">
+                🎉 Todas as 9 edições foram concluídas.
+            </div>
+        `;
+
+        return;
+    }
+
+    const index = EXAM_ORDER.indexOf(year);
+
+    const previous =
+        index > 0 ? EXAM_ORDER[index - 1] : null;
+
+    el.innerHTML = `
+
+        <div style="font-size:44px;font-weight:900;color:#4f46e5;">
+            ${year}
+        </div>
+
+        <div style="font-weight:800;font-size:18px;">
+            ENEM ${year}
+        </div>
+
+        <div class="muted small" style="margin:7px 0 15px;">
+            Etapa ${index + 1} de 9
+            ${previous ? ` · depois do ENEM ${previous}` : ""}
+        </div>
+
+        <button class="btn btn-primary"
+            onclick="markExamComplete(${year})">
+            Marcar como concluído
+        </button>
+    `;
+}
+
+/* =========================================================
+   QUESTÕES
+========================================================= */
+
+function updateSubjects() {
+
+    const area =
+        document.getElementById("qArea").value;
+
+    const select =
+        document.getElementById("qSubject");
+
+    select.innerHTML =
+        `<option value="">Selecione</option>`;
+
+    (SUBJECTS[area] || []).forEach(subject => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = subject;
+        option.textContent = subject;
+
+        select.appendChild(option);
+
+    });
+}
+
+function resetQuestionForm() {
+
+    document.getElementById("questionForm").reset();
+
+    document.getElementById("qDifficulty").value = "3";
+    document.getElementById("qResult").value = "Acerto";
+    document.getElementById("qError").value = "Não errei";
+}
+
+function createQuestionFromForm() {
+
+    const edition =
+        document.getElementById("qEdition").value.trim();
+
+    const number =
+        document.getElementById("qNumber").value.trim();
+
+    const area =
+        document.getElementById("qArea").value;
+
+    const result =
+        document.getElementById("qResult").value;
+
+    const subject =
+        document.getElementById("qSubject").value;
+
+    const content =
+        document.getElementById("qContent").value.trim();
+
+    if (!edition || !number || !area || !subject || !content) {
+
+        alert(
+            "Preencha edição/fonte, questão, área, matéria e conteúdo."
+        );
+
+        return null;
+    }
+
+    return {
+
+        id: crypto.randomUUID
+            ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random(),
+
+        edition,
+        number,
+        area,
+        result,
+        subject,
+        content,
+
+        error: document.getElementById("qError").value,
+
+        difficulty:
+            Number(document.getElementById("qDifficulty").value),
+
+        time:
+            Number(document.getElementById("qTime").value || 0),
+
+        note:
+            document.getElementById("qNote").value.trim(),
+
+        reviewed:
+            document.getElementById("qReviewed").value,
+
+        stage:
+            document.getElementById("qStage").value,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+}
+
+document.getElementById("questionForm")
+    .addEventListener("submit", event => {
+
+        event.preventDefault();
+
+        const question =
+            createQuestionFromForm();
+
+        if (!question) return;
+
+        /*
+            Evita duplicação simples de edição + número.
+        */
+
+        const duplicate =
+            state.questions.some(q =>
+                normalize(q.edition) === normalize(question.edition) &&
+                String(q.number) === String(question.number)
+            );
+
+        if (duplicate) {
+
+            alert(
+                "Essa questão já está registrada."
+            );
+
+            return;
+        }
+
+        state.questions.push(question);
+
+        saveState();
+
+        alert("Questão registrada com sucesso! 🎯");
+
+        resetQuestionForm();
+
+        refreshAll();
+
+        goTo("registros");
+    });
+
+document.getElementById("qArea")
+    .addEventListener("change", updateSubjects);
+
+/* =========================================================
+   RECOMENDAÇÕES
+========================================================= */
+
+function buildRecommendations() {
+
+    const mode =
+        document.getElementById("recMode").value;
+
+    const selectedArea =
+        document.getElementById("recArea").value;
+
+    const limit =
+        Number(document.getElementById("recLimit").value);
+
+    const groups = {};
+
+    state.questions.forEach(q => {
+
+        const key = getKey(q);
+
+        if (!groups[key]) {
+
+            groups[key] = {
+                area: q.area,
+                subject: q.subject,
+                content: q.content,
+                total: 0,
+                correct: 0,
+                errors: 0,
+                errorTypes: {},
+                frequency: getFrequency(q)
+            };
+
+        }
+
+        groups[key].total++;
+
+        if (q.result === "Acerto") {
+            groups[key].correct++;
+        } else {
+
+            groups[key].errors++;
+
+            groups[key].errorTypes[q.error] =
+                (groups[key].errorTypes[q.error] || 0) + 1;
+
+        }
+
+    });
+
+    let rows = Object.values(groups);
+
+    if (selectedArea) {
+        rows = rows.filter(
+            x => x.area === selectedArea
+        );
+    }
+
+    rows = rows.map(row => {
+
+        const performance =
+            pct(row.correct, row.total);
+
+        const evidence =
+            Math.min(1, row.total / 20);
+
+        const priority =
+            row.frequency *
+            (1 - performance / 100) *
+            evidence;
+
+        let score = priority;
+
+        if (mode === "error") {
+
+            score =
+                row.errors * 4 +
+                priority;
+
+        }
+
+        if (mode === "balance") {
+
+            const areaCount =
+                state.questions.filter(
+                    q => q.area === row.area
+                ).length;
+
+            score =
+                100 / (1 + areaCount) +
+                priority;
+
+        }
+
+        if (mode === "new") {
+
+            score =
+                row.total < 10
+                    ? 100 + row.frequency
+                    : priority;
+
+        }
+
+        return {
+            ...row,
+            performance,
+            score
+        };
+
+    });
+
+    /*
+       Se ainda não existem registros,
+       mostramos conteúdos de alta frequência
+       como pontos de partida.
+    */
+
+    if (!rows.length) {
+
+        rows = Object.entries(FREQUENCIES)
+            .map(([key, frequency]) => {
+
+                const [area, subject, content] =
+                    key.split("|");
+
+                if (
+                    selectedArea &&
+                    area !== selectedArea
+                ) return null;
+
+                return {
+                    area,
+                    subject,
+                    content,
+                    total: 0,
+                    correct: 0,
+                    errors: 0,
+                    frequency,
+                    performance: 0,
+                    score: frequency
+                };
+
+            })
+            .filter(Boolean);
+
+    }
+
+    return rows
+        .sort((a,b) => b.score - a.score)
+        .slice(0, limit);
+}
+
+function renderRecommendations() {
+
+    const rows =
+        buildRecommendations();
+
+    const el =
+        document.getElementById("recommendations");
+
+    if (!rows.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+                Não há recomendações disponíveis.
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = rows.map((row, index) => {
+
+        const level =
+            levelFromPerformance(
+                row.performance,
+                row.total
+            );
+
+        const reason =
+            row.total === 0
+                ? `Conteúdo de alta recorrência (${row.frequency}%) ainda sem questões registradas.`
+                : `${row.performance.toFixed(1)}% de acerto em ${row.total} questão(ões).`;
+
+        const query =
+            encodeURIComponent(
+                `"${row.content}" ${row.subject} questão vestibular`
+            );
+
+        return `
+
+            <div class="recommendation">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:10px;
+                    align-items:flex-start;
+                ">
+
+                    <div>
+
+                        <strong>
+                            ${index + 1}. ${escapeHTML(row.content)}
+                        </strong>
+
+                        <div class="small muted">
+                            ${escapeHTML(row.area)}
+                            ·
+                            ${escapeHTML(row.subject)}
+                        </div>
+
+                    </div>
+
+                    <span class="badge ${level.cls}">
+                        ${level.name}
+                    </span>
+
+                </div>
+
+                <div class="rec-reason">
+                    ${reason}
+                    <br>
+                    Frequência histórica:
+                    ${row.frequency}%
+                </div>
+
+                <div style="display:flex;gap:7px;flex-wrap:wrap;">
+
+                    <button class="btn btn-primary"
+                        onclick="searchQuestions('${query}')">
+                        🔎 Buscar questões
+                    </button>
+
+                    <button class="btn btn-ghost"
+                        onclick="openExternalModalPrefill(
+                            '${escapeJS(row.area)}',
+                            '${escapeJS(row.subject)}',
+                            '${escapeJS(row.content)}'
+                        )">
+                        + Cadastrar questão
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }).join("");
+}
+
+function escapeJS(str) {
+
+    return String(str ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"');
+}
+
+function searchQuestions(query) {
+
+    const url =
+        "https://www.google.com/search?q=" +
+        query;
+
+    window.open(url, "_blank");
+}
+
+function generateWebSearches() {
+
+    const rows =
+        buildRecommendations().slice(0, 5);
+
+    if (!rows.length) return;
+
+    rows.forEach((row, index) => {
+
+        setTimeout(() => {
+
+            const query =
+                encodeURIComponent(
+                    `${row.content} ${row.subject} questões vestibular FUVEST UNICAMP UNESP UERJ`
+                );
+
+            window.open(
+                "https://www.google.com/search?q=" + query,
+                "_blank"
+            );
+
+        }, index * 400);
+
+    });
+
+}
+
+/* =========================================================
+   ANÁLISE
+========================================================= */
+
+function renderAnalysis() {
+
+    renderEditionChart();
+    renderErrorChart();
+    renderSubjectAnalysis();
+    renderTimeAnalysis();
+}
+
+function renderEditionChart() {
+
+    const editions = {};
+
+    state.questions.forEach(q => {
+
+        if (!editions[q.edition]) {
+
+            editions[q.edition] = {
+                total: 0,
+                correct: 0
+            };
+
+        }
+
+        editions[q.edition].total++;
+
+        if (q.result === "Acerto") {
+            editions[q.edition].correct++;
+        }
+
+    });
+
+    const entries =
+        Object.entries(editions)
+        .map(([name, value]) => ({
+            name,
+            pct: pct(value.correct, value.total)
+        }))
+        .slice(-12);
+
+    document.getElementById("editionChart")
+        .innerHTML =
+        createBarChart(entries);
+}
+
+function createBarChart(entries) {
+
+    if (!entries.length) {
+
+        return `
+            <div class="empty">
+                <div class="empty-icon">📊</div>
+                Registre questões para visualizar o gráfico.
+            </div>
+        `;
+
+    }
+
+    const width = 650;
+    const height = 220;
+    const bottom = 45;
+    const top = 20;
+
+    const chartHeight =
+        height - top - bottom;
+
+    const barWidth =
+        width / entries.length * .55;
+
+    let svg = `
+        <svg class="chart-svg"
+            viewBox="0 0 ${width} ${height}"
+            preserveAspectRatio="none">
+    `;
+
+    [0,25,50,75,100].forEach(v => {
+
+        const y =
+            top + chartHeight -
+            (v / 100) * chartHeight;
+
+        svg += `
+            <line
+                x1="0"
+                x2="${width}"
+                y1="${y}"
+                y2="${y}"
+                stroke="#e5e7eb"
+                stroke-width="1"
+            />
+
+            <text
+                x="4"
+                y="${y - 3}"
+                class="axis-label"
+            >${v}%</text>
+        `;
+
+    });
+
+    entries.forEach((entry, i) => {
+
+        const x =
+            i * (width / entries.length) +
+            (width / entries.length - barWidth) / 2;
+
+        const barHeight =
+            entry.pct / 100 * chartHeight;
+
+        const y =
+            top + chartHeight - barHeight;
+
+        svg += `
+            <rect
+                x="${x}"
+                y="${y}"
+                width="${barWidth}"
+                height="${barHeight}"
+                rx="6"
+                fill="#6366f1"
+            />
+
+            <text
+                x="${x + barWidth/2}"
+                y="${y - 5}"
+                text-anchor="middle"
+                class="axis-label"
+            >${entry.pct}%</text>
+
+            <text
+                x="${x + barWidth/2}"
+                y="${height - 12}"
+                text-anchor="middle"
+                class="axis-label"
+            >${escapeHTML(entry.name).slice(0,14)}</text>
+        `;
+
+    });
+
+    svg += "</svg>";
+
+    return svg;
+}
+
+function renderErrorChart() {
+
+    const counts = {};
+
+    state.questions
+        .filter(q => q.result === "Erro")
+        .forEach(q => {
+
+            counts[q.error] =
+                (counts[q.error] || 0) + 1;
+
+        });
+
+    const entries =
+        Object.entries(counts)
+        .sort((a,b) => b[1] - a[1])
+        .map(([name,value]) => ({
+            name,
+            pct: state.questions.length
+                ? (value / state.questions.length) * 100
+                : 0
+        }));
+
+    document.getElementById("errorChart")
+        .innerHTML =
+        createHorizontalChart(entries);
+}
+
+function createHorizontalChart(entries) {
+
+    if (!entries.length) {
+
+        return `
+            <div class="empty">
+                <div class="empty-icon">🧠</div>
+                Ainda não há erros registrados.
+            </div>
+        `;
+
+    }
+
+    const max =
+        Math.max(...entries.map(e => e.pct));
+
+    return entries.slice(0,8).map(entry => {
+
+        const width =
+            max ? entry.pct / max * 100 : 0;
+
+        return `
+            <div style="margin-bottom:14px;">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    font-size:12px;
+                    font-weight:700;
+                    margin-bottom:5px;
+                ">
+                    <span>${escapeHTML(entry.name)}</span>
+                    <span>${entry.pct.toFixed(1)}%</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar"
+                        style="width:${width}%">
+                    </div>
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+function renderSubjectAnalysis() {
+
+    const groups = {};
+
+    state.questions.forEach(q => {
+
+        const key =
+            `${q.area}|${q.subject}`;
+
+        if (!groups[key]) {
+
+            groups[key] = {
+                area: q.area,
+                subject: q.subject,
+                total: 0,
+                correct: 0
+            };
+
+        }
+
+        groups[key].total++;
+
+        if (q.result === "Acerto") {
+            groups[key].correct++;
+        }
+
+    });
+
+    const rows =
+        Object.values(groups)
+        .sort((a,b) =>
+            pct(a.correct,a.total) -
+            pct(b.correct,b.total)
+        );
+
+    document.getElementById("subjectAnalysis")
+        .innerHTML =
+        rows.length
+            ? rows.map(row => {
+
+                const performance =
+                    pct(row.correct,row.total);
+
+                const level =
+                    levelFromPerformance(
+                        performance,
+                        row.total
+                    );
+
+                return `
+                    <tr>
+                        <td>${escapeHTML(row.area)}</td>
+                        <td>${escapeHTML(row.subject)}</td>
+                        <td>${row.total}</td>
+                        <td>${performance.toFixed(1)}%</td>
+                        <td>
+                            <span class="badge ${level.cls}">
+                                ${level.name}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+
+            }).join("")
+            :
+            `
+                <tr>
+                    <td colspan="5">
+                        <div class="empty">
+                            Nenhuma questão detalhada registrada.
+                        </div>
+                    </td>
+                </tr>
+            `;
+}
+
+function renderTimeAnalysis() {
+
+    const times =
+        state.questions
+        .map(q => q.time)
+        .filter(x => x > 0);
+
+    if (!times.length) {
+
+        document.getElementById("timeAnalysis")
+            .innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">⏱️</div>
+                    Registre o tempo das questões para acompanhar sua velocidade.
+                </div>
+            `;
+
+        return;
+    }
+
+    const avg =
+        times.reduce((a,b) => a+b,0) /
+        times.length;
+
+    const errors =
+        state.questions
+        .filter(q => q.result === "Erro" && q.time > 0)
+        .map(q => q.time);
+
+    const avgError =
+        errors.length
+            ? errors.reduce((a,b)=>a+b,0)/errors.length
+            : 0;
+
+    document.getElementById("timeAnalysis")
+        .innerHTML = `
+
+            <div class="grid grid-2">
+
+                <div class="card"
+                    style="box-shadow:none;background:var(--card2);">
+
+                    <div class="stat-label">
+                        Tempo médio
+                    </div>
+
+                    <div class="stat-value">
+                        ${avg.toFixed(1)}
+                    </div>
+
+                    <div class="stat-sub">
+                        minutos por questão
+                    </div>
+
+                </div>
+
+                <div class="card"
+                    style="box-shadow:none;background:var(--card2);">
+
+                    <div class="stat-label">
+                        Tempo médio em erros
+                    </div>
+
+                    <div class="stat-value">
+                        ${avgError.toFixed(1)}
+                    </div>
+
+                    <div class="stat-sub">
+                        minutos
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div style="height:20px"></div>
+
+            <div class="muted small">
+                Questões cronometradas: ${times.length}
+            </div>
+        `;
+}
+
+/* =========================================================
+   PONTOS FORTES
+========================================================= */
+
+function renderStrengths() {
+
+    const groups = {};
+
+    state.questions.forEach(q => {
+
+        const key = getKey(q);
+
+        if (!groups[key]) {
+
+            groups[key] = {
+                area: q.area,
+                subject: q.subject,
+                content: q.content,
+                total: 0,
+                correct: 0
+            };
+
+        }
+
+        groups[key].total++;
+
+        if (q.result === "Acerto") {
+            groups[key].correct++;
+        }
+
+    });
+
+    const rows =
+        Object.values(groups)
+        .map(row => ({
+            ...row,
+            performance:
+                pct(row.correct,row.total)
+        }))
+        .filter(row =>
+            row.total >= 10 &&
+            row.performance >= 80
+        )
+        .sort((a,b) =>
+            b.performance - a.performance
+        );
+
+    const el =
+        document.getElementById("strengths");
+
+    if (!rows.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">🏆</div>
+                Ainda não há conteúdos com evidência suficiente.
+                <br>
+                <span class="small">
+                    Regra: pelo menos 10 questões e 80% de acerto.
+                </span>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = rows.map(row => `
+
+        <div class="recommendation">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:12px;
+            ">
+
+                <div>
+                    <strong>
+                        💎 ${escapeHTML(row.content)}
+                    </strong>
+
+                    <div class="small muted">
+                        ${escapeHTML(row.area)}
+                        ·
+                        ${escapeHTML(row.subject)}
+                    </div>
+                </div>
+
+                <span class="badge badge-purple">
+                    ${row.performance.toFixed(1)}%
+                </span>
+
+            </div>
+
+            <div class="rec-reason">
+                ${row.correct}/${row.total} acertos.
+                Manter com revisões espaçadas e questões de dificuldade maior.
+            </div>
+
+        </div>
+
+    `).join("");
+}
+
+/* =========================================================
+   PRIORIDADES
+========================================================= */
+
+function renderPriorities() {
+
+    const rows =
+        calculatePriorityRows()
+        .filter(row => row.total >= 3);
+
+    const tbody =
+        document.getElementById("priorityTable");
+
+    if (!rows.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty">
+                        <div class="empty-icon">🚨</div>
+                        Registre pelo menos 3 questões de um conteúdo
+                        para gerar uma prioridade.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML =
+        rows.slice(0,50).map(row => {
+
+            const priority =
+                row.priority;
+
+            let badge =
+                priority >= 20
+                    ? `<span class="badge badge-red">Alta</span>`
+                    : priority >= 10
+                        ? `<span class="badge badge-yellow">Média</span>`
+                        : `<span class="badge badge-blue">Baixa</span>`;
+
+            return `
+                <tr>
+
+                    <td>${escapeHTML(row.area)}</td>
+
+                    <td>${escapeHTML(row.subject)}</td>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(row.content)}
+                        </strong>
+                    </td>
+
+                    <td>${row.total}</td>
+
+                    <td>${row.performance.toFixed(1)}%</td>
+
+                    <td>${row.errors}</td>
+
+                    <td>${badge}</td>
+
+                </tr>
+            `;
+
+        }).join("");
+}
+
+/* =========================================================
+   CRONOGRAMA
+========================================================= */
+
+function renderSchedule() {
+
+    const el =
+        document.getElementById("schedule");
+
+    el.innerHTML =
+        EXAM_ORDER.map((year,index) => {
+
+            const item =
+                state.schedule[year];
+
+            const completed =
+                item.status === "Concluído";
+
+            return `
+
+                <div class="schedule-item">
+
+                    <div class="year-box">
+                        ${year}
+                    </div>
+
+                    <div>
+
+                        <div class="schedule-title">
+                            ${index + 1}. ENEM ${year}
+                        </div>
+
+                        <div class="schedule-meta">
+                            ${completed
+                                ? "Edição concluída"
+                                : "Ainda pendente"}
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        ${
+                            completed
+
+                            ?
+
+                            `
+                            <span class="badge badge-green">
+                                ✓ Concluído
+                            </span>
+                            `
+
+                            :
+
+                            `
+                            <button class="btn btn-primary"
+                                onclick="markExamComplete(${year})">
+                                Concluir
+                            </button>
+                            `
+                        }
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+function markExamComplete(year) {
+
+    state.schedule[year].status =
+        "Concluído";
+
+    state.schedule[year].completedAt =
+        new Date().toISOString();
+
+    saveState();
+
+    refreshAll();
+
+    alert(
+        `ENEM ${year} marcado como concluído!`
+    );
+}
+
+/* =========================================================
+   REGISTROS
+========================================================= */
+
+function renderRecords() {
+
+    const query =
+        normalize(
+            document.getElementById("recordSearch")?.value
+        );
+
+    let questions =
+        [...state.questions]
+        .sort((a,b) =>
+            new Date(b.createdAt) -
+            new Date(a.createdAt)
+        );
+
+    if (query) {
+
+        questions =
+            questions.filter(q =>
+                normalize([
+                    q.edition,
+                    q.number,
+                    q.area,
+                    q.subject,
+                    q.content
+                ].join(" "))
+                .includes(query)
+            );
+
+    }
+
+    const tbody =
+        document.getElementById("recordsTable");
+
+    if (!questions.length) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8">
+                    <div class="empty">
+                        <div class="empty-icon">📚</div>
+                        Nenhuma questão encontrada.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML =
+        questions.map(q => `
+
+            <tr>
+
+                <td>${escapeHTML(q.edition)}</td>
+
+                <td>${escapeHTML(q.number)}</td>
+
+                <td>${escapeHTML(q.area)}</td>
+
+                <td>${escapeHTML(q.subject)}</td>
+
+                <td>${escapeHTML(q.content)}</td>
+
+                <td>
+
+                    ${
+                        q.result === "Acerto"
+
+                        ?
+
+                        `<span class="badge badge-green">✓ Acerto</span>`
+
+                        :
+
+                        `<span class="badge badge-red">✕ Erro</span>`
+                    }
+
+                </td>
+
+                <td>
+                    ${q.time ? q.time + " min" : "—"}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteQuestion('${escapeJS(q.id)}')">
+                        Excluir
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+}
+
+function deleteQuestion(id) {
+
+    if (!confirm(
+        "Excluir esta questão do histórico?"
+    )) return;
+
+    state.questions =
+        state.questions.filter(
+            q => q.id !== id
+        );
+
+    saveState();
+
+    refreshAll();
+
+    renderRecords();
+}
+
+/* =========================================================
+   MODAL EXTERNO
+========================================================= */
+
+function openExternalModal() {
+
+    document.getElementById(
+        "externalModal"
+    ).classList.add("show");
+}
+
+function closeExternalModal() {
+
+    document.getElementById(
+        "externalModal"
+    ).classList.remove("show");
+}
+
+function openExternalModalPrefill(
+    area,
+    subject,
+    content
+) {
+
+    document.getElementById("eArea").value =
+        area;
+
+    document.getElementById("eSubject").value =
+        subject;
+
+    document.getElementById("eContent").value =
+        content;
+
+    openExternalModal();
+}
+
+document.getElementById("externalForm")
+    .addEventListener("submit", event => {
+
+        event.preventDefault();
+
+        const item = {
+
+            id:
+                crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Date.now() + "-" + Math.random(),
+
+            source:
+                document.getElementById("eSource").value.trim(),
+
+            year:
+                document.getElementById("eYear").value.trim(),
+
+            area:
+                document.getElementById("eArea").value,
+
+            number:
+                document.getElementById("eNumber").value.trim(),
+
+            subject:
+                document.getElementById("eSubject").value.trim(),
+
+            content:
+                document.getElementById("eContent").value.trim(),
+
+            url:
+                document.getElementById("eUrl").value.trim(),
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+        if (!item.source || !item.content) {
+
+            alert(
+                "Preencha pelo menos a fonte e o conteúdo."
+            );
+
+            return;
+        }
+
+        const duplicate =
+            state.externalCatalog.some(x =>
+                normalize(x.source) === normalize(item.source) &&
+                String(x.year) === String(item.year) &&
+                String(x.number) === String(item.number)
+            );
+
+        if (duplicate) {
+
+            alert(
+                "Essa questão já está no catálogo."
+            );
+
+            return;
+        }
+
+        state.externalCatalog.push(item);
+
+        saveState();
+
+        closeExternalModal();
+
+        document.getElementById("externalForm").reset();
+
+        alert(
+            "Questão externa adicionada ao catálogo."
+        );
+
+        renderRecommendations();
+
+    });
+
+/* =========================================================
+   IMPORT / EXPORT
+========================================================= */
+
+function exportData() {
+
+    const payload = {
+
+        app: "ENEM Master",
+        version: 1,
+        exportedAt:
+            new Date().toISOString(),
+
+        state
+
+    };
+
+    const blob =
+        new Blob(
+            [JSON.stringify(payload,null,2)],
+            { type: "application/json" }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "enem-master-backup.json";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload = () => {
+
+        try {
+
+            const payload =
+                JSON.parse(reader.result);
+
+            if (!payload.state) {
+
+                throw new Error(
+                    "Arquivo inválido."
+                );
+
+            }
+
+            if (!confirm(
+                "Isso substituirá os dados atuais. Continuar?"
+            )) return;
+
+            state = {
+                ...state,
+                ...payload.state
+            };
+
+            saveState();
+
+            loadState();
+
+            refreshAll();
+
+            alert(
+                "Dados importados com sucesso."
+            );
+
+        } catch (error) {
+
+            alert(
+                "Não foi possível importar esse arquivo."
+            );
+
+        }
+
+    };
+
+    reader.readAsText(file);
+}
+
+function clearAllData() {
+
+    if (!confirm(
+        "Tem certeza? Todas as questões registradas serão apagadas."
+    )) return;
+
+    state.questions = [];
+    state.externalCatalog = [];
+
+    saveState();
+
+    refreshAll();
+
+    alert(
+        "Registros apagados. A linha de base do ENEM 2023 permanece."
+    );
+}
+
+/* =========================================================
+   TEMA
+========================================================= */
+
+document.getElementById("themeBtn")
+    .addEventListener("click", () => {
+
+        document.body.classList.toggle("dark");
+
+        state.theme =
+            document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+
+        saveState();
+
+    });
+
+/* =========================================================
+   MENU MOBILE
+========================================================= */
+
+document.getElementById("mobileMenu")
+    .addEventListener("click", () => {
+
+        document.getElementById(
+            "sidebar"
+        ).classList.toggle("open");
+
+    });
+
+/* =========================================================
+   NAV BUTTONS
+========================================================= */
+
+document.querySelectorAll(
+    ".nav-btn[data-page]"
+).forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        goTo(button.dataset.page);
+
+    });
+
+});
+
+/* =========================================================
+   CONTENT DATALIST
+========================================================= */
+
+function populateContentList() {
+
+    const list =
+        document.getElementById("contentList");
+
+    const contents =
+        Object.keys(FREQUENCIES)
+            .map(key => key.split("|")[2]);
+
+    const unique =
+        [...new Set(contents)];
+
+    list.innerHTML =
+        unique.map(content =>
+            `<option value="${escapeHTML(content)}">`
+        ).join("");
+}
+
+/* =========================================================
+   ATUALIZAÇÃO GLOBAL
+========================================================= */
+
+function refreshAll() {
+
+    renderDashboard();
+    renderRecommendations();
+    renderAnalysis();
+    renderStrengths();
+    renderPriorities();
+    renderSchedule();
+    renderRecords();
+
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+loadState();
+
+populateContentList();
+
+updateSubjects();
+
+refreshAll();
+
+</script>
+
+</body>
+</html>
